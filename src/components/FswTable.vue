@@ -4,34 +4,13 @@ import fswDialogAcept from './fswDialogAcept.vue'
 import fswDialogAdd from './fswDialogAdd.vue'
 import { useCityStore } from '../store/cities'
 import { storeToRefs } from "pinia";
-import { InputUpdateCity, InputCreateCity } from '../services/cities/types';
 
 const dialogAdd = ref(false)
 const dialogDelete = ref(false)
 
 const cityStore = useCityStore()
-const { cities } =  storeToRefs(cityStore)
+const { cities, city } =  storeToRefs(cityStore)
 
-const editedIndex = ref(-1)
-
-const cityEdit = ref<InputUpdateCity | InputCreateCity | null>(null)
-
-const editedItem = ref({
-	name: '',
-	country: 0,
-	numVisits: 0,
-	population: 0,
-	numHotels: 0,
-	certifications: 0,
-})
-const defaultItem = {
-	name: '',
-	country: 0,
-	numVisits: 0,
-	population: 0,
-	numHotels: 0,
-	certifications: 0,
-}
 const headers = [
 	{ title: 'Ciudad', align: 'start', key: 'cityName' },
 	{ title: 'Pais', key: 'country' },
@@ -43,46 +22,35 @@ const headers = [
 ]
 
 const formTitle = 'City Form'
-const handleAddOrEdit = (result: boolean) => {
-	console.log("Result ", result);
-	if (result) {
-		// save();
-	}
-	close();
-}
-const close = () => {
+
+const closeModal = () => {
+	cityStore.resetCity()
 	dialogAdd.value = false
 }
-const save = () => {
-	if (editedIndex.value > -1) {
-		Object.assign(desserts[editedIndex.value], editedItem.value)
-	} else {
-		desserts.push(editedItem.value)
-	}
-	close()
-}
+
 const editItem = (item: any) => {
-	editedIndex.value = desserts.indexOf(item)
-	editedItem.value = Object.assign({}, item)
+	cityStore.currentCity(item.id)
 	dialogAdd.value = true
 }
+
 const deleteItem = (item: any) => {
-	editedIndex.value = desserts.indexOf(item)
+	cityStore.currentCity(item.id)
 	dialogDelete.value = true
 }
+
 const closeDelete = () => {
+	cityStore.resetCity()
 	dialogDelete.value = false
 }
+
 const deleteItemConfirm = () => {
-	desserts.splice(editedIndex.value, 1)
+	const idx = city.value.id || 0;
+	cityStore.dispatchDeleteCity(idx)
 	closeDelete()
 }
 
 const handleConfirmDelete = (result: boolean) => {
-	console.log("Result ", result);
-	if (result) {
-		deleteItemConfirm();
-	}
+	if (result) deleteItemConfirm();
 	closeDelete();
 }
 
@@ -95,7 +63,6 @@ cityStore.dispatchGetCities()
     :items="cities"
     :sort-by="[{ key: 'country', order: 'asc' }]"
   >
-		<!-- <pre>{{ cities }}</pre> -->
     <template v-slot:top>
       <v-toolbar
         flat
@@ -112,9 +79,8 @@ cityStore.dispatchGetCities()
 				</v-btn>
 				<fswDialogAdd
 					v-model="dialogAdd"
-					:editedItem="editedItem"
 					:formTitle="formTitle"
-					@action-result="handleAddOrEdit"
+					@action-result="closeModal"
 				/>
 
 				<fswDialogAcept

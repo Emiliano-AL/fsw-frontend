@@ -1,5 +1,5 @@
 export type City = {
-  id: number;
+  id?: number;
   cityName: string;
   country: string;
   numVisits: number;
@@ -9,7 +9,7 @@ export type City = {
 };
 
 export type InputCreateCity = {
-  id: number;
+  // id: number;
   cityName: string;
   country: string;
   numVisits: number;
@@ -19,7 +19,7 @@ export type InputCreateCity = {
 };
 
 export type InputUpdateCity = {
-  // id: number;
+  id: number;
   cityName: string;
   country: string;
   numVisits: number;
