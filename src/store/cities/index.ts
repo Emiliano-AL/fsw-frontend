@@ -118,10 +118,10 @@ export const useCityStore = defineStore("cityStore", () => {
 		};
 	}
 
-	async function dispatchUpdateCity(input: InputUpdateCity) : Promise<APIResponse<null>> {
+	async function dispatchUpdateCity(id: number, input: InputUpdateCity) : Promise<APIResponse<null>> {
 		try {
 			hasProcess.value = true
-			const { status } = await API.cities.updateCity(input)
+			const { status } = await API.cities.updateCity(id, input)
 			if (status === 200) {
 				return {
 					success: true,

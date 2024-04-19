@@ -30,7 +30,7 @@ const handleAddOrEdit = () => {
 			numHotels: city.value.numHotels,
 			certifications: city.value.certifications,
 		}
-		cityStore.dispatchUpdateCity(cityUpdtd)
+		cityStore.dispatchUpdateCity(city.value.id, cityUpdtd)
 	} else {
 		const cityNew : InputCreateCity = {
 			cityName: city.value.cityName,
@@ -47,6 +47,20 @@ const handleAddOrEdit = () => {
 }
 
 
+const cityRules = [
+	v => !!v || 'El campo es requerido',
+	v => (v && v.length <= 10) || 'El campo debe tener menos de 10 caracteres',
+]
+
+const countryRules = [
+	v => !!v || 'El campo es requerido',
+]
+
+const numbersRules = [
+	v => !!v || 'El campo es requerido',
+	v => (v && v >= 0) || 'El campo debe ser mayor o igual a 0',
+]
+
 </script>
 <template>
 	<v-dialog :value="value" max-width="700px">
@@ -61,32 +75,49 @@ const handleAddOrEdit = () => {
 						<v-col cols="12" md="4" sm="6">
 							<v-text-field
 								v-model="city.cityName"
-								label="Nombre de la ciudad"></v-text-field>
+								:rules="cityRules"
+								label="Nombre de la ciudad">
+							</v-text-field>
 						</v-col>
 						<v-col cols="12" md="4" sm="6">
 							<v-text-field
 								v-model="city.country"
-								label="País"></v-text-field>
+								:rules="countryRules"
+								label="País">
+							</v-text-field>
 						</v-col>
 						<v-col cols="12" md="4" sm="6">
 							<v-text-field
+								:rules="numbersRules"
+								:min="1"
 								v-model="city.numVisits"
-								label="Num. visitantes"></v-text-field>
+								type="number"
+								label="Num. visitantes">
+							</v-text-field>
 						</v-col>
 						<v-col cols="12" md="4" sm="6">
 							<v-text-field
+								:rules="numbersRules"
 								v-model="city.population"
-								label="Num. Habitantes"></v-text-field>
+								type="number"
+								label="Num. Habitantes">
+							</v-text-field>
 						</v-col>
 						<v-col cols="12" md="4" sm="6">
 							<v-text-field
+								:rules="numbersRules"
 								v-model="city.numHotels"
-								label="Num. Hoteles"></v-text-field>
+								type="number"
+								label="Num. Hoteles">
+							</v-text-field>
 						</v-col>
 						<v-col cols="12" md="4" sm="6">
 							<v-text-field
+								:rules="numbersRules"
 								v-model="city.certifications"
-								label="Certificaciones"></v-text-field>
+								type="number"
+								label="Certificaciones">
+							</v-text-field>
 						</v-col>
 					</v-row>
 				</v-container>

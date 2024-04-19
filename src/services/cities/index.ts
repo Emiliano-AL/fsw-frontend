@@ -14,8 +14,8 @@ async function createCity(input: InputCreateCity) {
   return await http.post<APIResponse<City>>("City", input);
 }
 
-async function updateCity(input: InputUpdateCity) {
-  return await http.put<APIResponse<boolean>>("City", input);
+async function updateCity(id: number, input: InputUpdateCity) {
+  return await http.put<APIResponse<boolean>>(`City/${id}`, input);
 }
 
 export default {
