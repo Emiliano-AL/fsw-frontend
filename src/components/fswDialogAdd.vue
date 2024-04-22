@@ -20,9 +20,9 @@ const handleCancelAction = (value: boolean) => {
 }
 
 const handleAddOrEdit = () => {
-	if( city.value.id && city.value.id > 0 ) {
+	if( city.value.cityId && city.value.cityId > 0 ) {
 		const cityUpdtd: InputUpdateCity = {
-			id: city.value.id,
+			id: city.value.cityId,
 			cityName: city.value.cityName,
 			country: city.value.country,
 			numVisits: city.value.numVisits,
@@ -30,7 +30,7 @@ const handleAddOrEdit = () => {
 			numHotels: city.value.numHotels,
 			certifications: city.value.certifications,
 		}
-		cityStore.dispatchUpdateCity(city.value.id, cityUpdtd)
+		cityStore.dispatchUpdateCity(city.value.cityId, cityUpdtd)
 	} else {
 		const cityNew : InputCreateCity = {
 			cityName: city.value.cityName,
@@ -49,7 +49,7 @@ const handleAddOrEdit = () => {
 
 const cityRules = [
 	v => !!v || 'El campo es requerido',
-	v => (v && v.length <= 10) || 'El campo debe tener menos de 10 caracteres',
+	v => (v && v.length <= 20) || 'El campo debe tener menos de 20 caracteres',
 ]
 
 const countryRules = [

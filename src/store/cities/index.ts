@@ -19,13 +19,14 @@ export const useCityStore = defineStore("cityStore", () => {
   }
 
   function removeCity(id: number) {
-    const idx = cities.value.findIndex((s) => s.id === id);
+    const idx = cities.value.findIndex((s) => s.cityId === id);
     if (idx === -1) return;
     cities.value.splice(idx, 1);
   }
 
 	const currentCity = (idx: number) => {
-		city.value = cities.value.find((city) => city.id === idx) || null
+		console.log(cities, idx)
+		city.value = cities.value.find((city) => city.cityId === idx) || null
 	}
 
 	const resetCity = () => {

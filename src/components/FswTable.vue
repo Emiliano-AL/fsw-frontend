@@ -32,12 +32,12 @@ const closeModal = () => {
 }
 
 const editItem = (item: any) => {
-	cityStore.currentCity(item.id)
+	cityStore.currentCity(item.cityId)
 	dialogAdd.value = true
 }
 
 const deleteItem = (item: any) => {
-	cityStore.currentCity(item.id)
+	cityStore.currentCity(item.cityId)
 	dialogDelete.value = true
 }
 
@@ -47,7 +47,7 @@ const closeDelete = () => {
 }
 
 const deleteItemConfirm = () => {
-	const idx = city.value.id || 0;
+	const idx = city.value.cityId || 0;
 	cityStore.dispatchDeleteCity(idx)
 	closeDelete()
 }
